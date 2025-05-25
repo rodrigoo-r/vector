@@ -370,6 +370,7 @@ inline void vec_clear(Vector *vector) {
  * resets the length and capacity to zero.
  *
  * @param vector Pointer to the Vector structure to destroy.
+ * @param free_fn Optional function to free each element in the vector.
  */
 inline void vec_destroy(
     Vector *vector,
