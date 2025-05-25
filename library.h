@@ -326,7 +326,7 @@ inline void *vec_get(const Vector *vector, const size_t index)
     return vector->data[index];
 }
 
-    /**
+/**
  * @brief Iterates over each element in the vector and applies a callback.
  *
  * Calls the provided callback function for every element in the vector,
@@ -349,16 +349,16 @@ inline void *vec_get(const Vector *vector, const size_t index)
     }
 }
 
-    /**
-     * @brief Clears the vector by resetting its length to zero.
-     *
-     * This does not free any memory or deallocate the internal data array.
-     * The vector remains allocated with the same capacity, but all elements
-     * are considered removed.
-     *
-     * @param vector Pointer to the Vector structure to clear.
-     */
-    inline void vec_clear(Vector *vector) {
+/**
+ * @brief Clears the vector by resetting its length to zero.
+ *
+ * This does not free any memory or deallocate the internal data array.
+ * The vector remains allocated with the same capacity, but all elements
+ * are considered removed.
+ *
+ * @param vector Pointer to the Vector structure to clear.
+ */
+inline void vec_clear(Vector *vector) {
     vector->length = 0;
 }
 
