@@ -92,8 +92,8 @@
 // Depends on: stdlib.h
 // ----------------------------------------
 
-#ifndef VECTOR_LIBRARY_H
-#define VECTOR_LIBRARY_H
+#ifndef FLUENT_LIBC_VECTOR_LIBRARY_H
+#define FLUENT_LIBC_VECTOR_LIBRARY_H
 
 // ============= FLUENT LIB C++ =============
 #if defined(__cplusplus)
@@ -400,4 +400,4 @@ inline void vec_destroy(
 }
 #endif
 
-#endif //VECTOR_LIBRARY_H
+#endif //FLUENT_LIBC_VECTOR_LIBRARY_H
