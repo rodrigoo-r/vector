@@ -3,4 +3,4 @@ project(vector C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_library(vector STATIC library.c)
+add_library(vector STATIC vector.c)
