@@ -9,7 +9,7 @@
 */
 
 // ============= FLUENT LIB C =============
-// Vector API
+// vector_t API
 // ----------------------------------------
 // A dynamic array implementation for C.
 // This library provides a simple and efficient
@@ -34,44 +34,44 @@
 // - vec_destroy:   Free all memory used by the vector.
 // Function Signatures:
 // ----------------------------------------
-// void vec_init(Vector *vector, const size_t initial_capacity, const size_t el_size);
+// void vec_init(vector_t *vector, const size_t initial_capacity, const size_t el_size);
 //     Example:
-//         Vector v;
+//         vector_t v;
 //         vec_init(&v, 8, sizeof(int *));
 //
-// size_t vec_capacity(const Vector *vector);
+// size_t vec_capacity(const vector_t *vector);
 //     Example:
 //         size_t cap = vec_capacity(&v);
 //
-// size_t vec_len(const Vector *vector);
+// size_t vec_len(const vector_t *vector);
 //     Example:
 //         size_t len = vec_len(&v);
 //
-// void vec_resize(Vector *vector, const size_t new_capacity);
+// void vec_resize(vector_t *vector, const size_t new_capacity);
 //     Example:
 //         vec_resize(&v, 32);
 //
-// void vec_ensure(Vector *vector, const size_t n);
+// void vec_ensure(vector_t *vector, const size_t n);
 //     Example:
 //         vec_ensure(&v, 10);
 //
-// void vec_push(Vector *vector, void *value);
+// void vec_push(vector_t *vector, void *value);
 //     Example:
 //         int *x = malloc(sizeof(int));
 //         *x = 42;
 //         vec_push(&v, x);
 //
-// void vec_set(const Vector *vector, const size_t index, void *value);
+// void vec_set(const vector_t *vector, const size_t index, void *value);
 //     Example:
 //         int *y = malloc(sizeof(int));
 //         *y = 99;
 //         vec_set(&v, 0, y);
 //
-// void *vec_get(const Vector *vector, const size_t index);
+// void *vec_get(const vector_t *vector, const size_t index);
 //     Example:
 //         int *z = (int *)vec_get(&v, 0);
 //
-// void vec_for_each(const Vector *vector, void (*func)(void *));
+// void vec_for_each(const vector_t *vector, void (*func)(void *));
 //     Example:
 //         void print_int(void *value)
 //         {
@@ -79,11 +79,11 @@
 //         }
 //         vec_for_each(&v, print_int);
 //
-// void vec_clear(Vector *vector);
+// void vec_clear(vector_t *vector);
 //     Example:
 //         vec_clear(&v);
 //
-// void vec_destroy(Vector *vector);
+// void vec_destroy(vector_t *vector);
 //     Example:
 //         vec_destroy(&v, NULL);
 // ----------------------------------------
@@ -113,19 +113,19 @@ typedef unsigned long int size_t; // size_type
 /**
  * @brief Macro to initialize a vector of a given type, name, and capacity.
  *
- * This macro declares a Vector variable with the specified name and
+ * This macro declares a vector_t variable with the specified name and
  * initializes it with the given capacity and element type size.
  * The growth factor is set to 2.0 by default.
  *
  * @param type The data type of the elements to be stored in the vector.
- * @param name The name of the Vector variable to declare.
+ * @param name The name of the vector_t variable to declare.
  * @param cap  The initial capacity of the vector.
  *
  * Example:
  *     VEC_INIT(int *, my_vector, 16);
  */
 #define VEC_INIT(type, name, cap) \
-    Vector name; \
+    vector_t name; \
     vec_init(&name, cap, sizeof(type), 2.0)
 
 /**
@@ -145,7 +145,7 @@ typedef struct
     size_t capacity;
     double growth_factor;
     void **data; // WARNING: Do not manipulate directly, use vec_set and vec_get instead
-} Vector;
+} vector_t;
 
 /**
  * @brief Initializes a dynamic vector with a specified initial capacity.
@@ -153,13 +153,13 @@ typedef struct
  * Allocates memory for the vector's internal data array and sets the initial
  * length to zero. If memory allocation fails, prints an error message and exits.
  *
- * @param vector Pointer to the Vector structure to initialize.
+ * @param vector Pointer to the vector_t structure to initialize.
  * @param el_size Size of each element in bytes.
  * @param growth_factor The factor by which the vector grows when resized.
  * @param initial_capacity The initial number of elements the vector can hold.
  */
 inline void vec_init(
-    Vector *vector,
+    vector_t *vector,
     const size_t initial_capacity,
     const size_t el_size,
     const double growth_factor
@@ -168,7 +168,7 @@ inline void vec_init(
     // Make sure the initial capacity is not 0
     if (initial_capacity == 0)
     {
-        fprintf(stderr, "Error: Initial capacity cannot be 0 (fluent_libc: Vector)\n");
+        fprintf(stderr, "Error: Initial capacity cannot be 0 (fluent_libc: vector_t)\n");
         exit(1);
     }
 
@@ -192,10 +192,10 @@ inline void vec_init(
 /**
  * @brief Returns the current capacity of the vector.
  *
- * @param vector Pointer to the Vector structure.
+ * @param vector Pointer to the vector_t structure.
  * @return The number of elements the vector can currently hold.
  */
-inline size_t vec_capacity(const Vector *vector)
+inline size_t vec_capacity(const vector_t *vector)
 {
     return vector->capacity;
 }
@@ -203,10 +203,10 @@ inline size_t vec_capacity(const Vector *vector)
 /**
  * @brief Returns the current number of elements in the vector.
  *
- * @param vector Pointer to the Vector structure.
+ * @param vector Pointer to the vector_t structure.
  * @return The number of elements currently stored in the vector.
  */
-inline size_t vec_len(const Vector *vector)
+inline size_t vec_len(const vector_t *vector)
 {
     return vector->length;
 }
@@ -219,10 +219,10 @@ inline size_t vec_len(const Vector *vector)
  * result in undefined behavior. If memory allocation fails, frees the
  * original data, prints an error message, and exits the program.
  *
- * @param vector Pointer to the Vector structure to resize.
+ * @param vector Pointer to the vector_t structure to resize.
  * @param new_capacity The new capacity for the vector.
  */
-inline void vec_resize(Vector *vector, const size_t new_capacity)
+inline void vec_resize(vector_t *vector, const size_t new_capacity)
 {
     // WARNING: Does not do bound-checking, shrinking memory to 0
     // might result in undefined behavior.
@@ -249,10 +249,10 @@ inline void vec_resize(Vector *vector, const size_t new_capacity)
  * Checks if the vector can accommodate `n` more elements. If not, resizes
  * the vector by doubling its current capacity.
  *
- * @param vector Pointer to the Vector structure.
+ * @param vector Pointer to the vector_t structure.
  * @param n The number of additional elements to ensure capacity for.
  */
-inline void vec_ensure(Vector *vector, const size_t n)
+inline void vec_ensure(vector_t *vector, const size_t n)
 {
     // Ensure the vector has enough capacity for n elements
     if (vector->length + n > vector->capacity)
@@ -267,10 +267,10 @@ inline void vec_ensure(Vector *vector, const size_t n)
  * Ensures there is enough capacity for the new element, then adds the given value
  * to the end of the vector and increments the length.
  *
- * @param vector Pointer to the Vector structure.
+ * @param vector Pointer to the vector_t structure.
  * @param value Pointer to the element to be added.
  */
-inline void vec_push(Vector *vector, void *value)
+inline void vec_push(vector_t *vector, void *value)
 {
     // Ensure we have enough capacity
     vec_ensure(vector, 1);
@@ -286,16 +286,16 @@ inline void vec_push(Vector *vector, void *value)
  * Replaces the element at the given index with the provided value.
  * Exits the program if the index is out of bounds.
  *
- * @param vector Pointer to the Vector structure.
+ * @param vector Pointer to the vector_t structure.
  * @param index The index at which to set the value.
  * @param value Pointer to the new value to set.
  */
-inline void vec_set(const Vector *vector, const size_t index, void *value)
+inline void vec_set(const vector_t *vector, const size_t index, void *value)
 {
     // Make sure the index is valid
     if (index >= vector->length)
     {
-        fprintf(stderr, "Error: Index out of bounds (fluent_libc: Vector)\n");
+        fprintf(stderr, "Error: Index out of bounds (fluent_libc: vector_t)\n");
         exit(1);
     }
 
@@ -309,16 +309,16 @@ inline void vec_set(const Vector *vector, const size_t index, void *value)
  * Returns a pointer to the element at the given index.
  * Exits the program if the index is out of bounds.
  *
- * @param vector Pointer to the Vector structure.
+ * @param vector Pointer to the vector_t structure.
  * @param index The index from which to get the value.
  * @return Pointer to the value at the specified index.
  */
-inline void *vec_get(const Vector *vector, const size_t index)
+inline void *vec_get(const vector_t *vector, const size_t index)
 {
     // Make sure the index is valid
     if (index >= vector->length)
     {
-        fprintf(stderr, "Error: Index out of bounds (fluent_libc: Vector)\n");
+        fprintf(stderr, "Error: Index out of bounds (fluent_libc: vector_t)\n");
         exit(1);
     }
 
@@ -332,12 +332,12 @@ inline void *vec_get(const Vector *vector, const size_t index)
  * Calls the provided callback function for every element in the vector,
  * passing the element pointer and its index as arguments.
  *
- * @param vector Pointer to the Vector structure to iterate over.
+ * @param vector Pointer to the vector_t structure to iterate over.
  * @param callback Function pointer to call for each element. The function
  *        should accept a void pointer to the element and its index.
  */
     inline void vec_for_each(
-        const Vector *vector,
+        const vector_t *vector,
         void (*callback)(const void *value, size_t index)
     )
 {
@@ -356,9 +356,9 @@ inline void *vec_get(const Vector *vector, const size_t index)
  * The vector remains allocated with the same capacity, but all elements
  * are considered removed.
  *
- * @param vector Pointer to the Vector structure to clear.
+ * @param vector Pointer to the vector_t structure to clear.
  */
-inline void vec_clear(Vector *vector) {
+inline void vec_clear(vector_t *vector) {
     vector->length = 0;
 }
 
@@ -369,11 +369,11 @@ inline void vec_clear(Vector *vector) {
  * sets the data pointer to NULL to avoid dangling references, and
  * resets the length and capacity to zero.
  *
- * @param vector Pointer to the Vector structure to destroy.
+ * @param vector Pointer to the vector_t structure to destroy.
  * @param free_fn Optional function to free each element in the vector.
  */
 inline void vec_destroy(
-    Vector *vector,
+    vector_t *vector,
     void (*free_fn)(const void *, size_t)
 )
 {
