@@ -8,4 +8,4 @@
  * under certain conditions; type `show c' for details.
 */
 
-#include "include/fluent/vector/vector.h"
+#include "vector.h"
