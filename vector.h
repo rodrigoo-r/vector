@@ -158,7 +158,7 @@ typedef struct
  * @param growth_factor The factor by which the vector grows when resized.
  * @param initial_capacity The initial number of elements the vector can hold.
  */
-inline void vec_init(
+static inline void vec_init(
     vector_t *vector,
     const size_t initial_capacity,
     const size_t el_size,
@@ -195,7 +195,7 @@ inline void vec_init(
  * @param vector Pointer to the vector_t structure.
  * @return The number of elements the vector can currently hold.
  */
-inline size_t vec_capacity(const vector_t *vector)
+static inline size_t vec_capacity(const vector_t *vector)
 {
     return vector->capacity;
 }
@@ -206,7 +206,7 @@ inline size_t vec_capacity(const vector_t *vector)
  * @param vector Pointer to the vector_t structure.
  * @return The number of elements currently stored in the vector.
  */
-inline size_t vec_len(const vector_t *vector)
+static inline size_t vec_len(const vector_t *vector)
 {
     return vector->length;
 }
@@ -222,7 +222,7 @@ inline size_t vec_len(const vector_t *vector)
  * @param vector Pointer to the vector_t structure to resize.
  * @param new_capacity The new capacity for the vector.
  */
-inline void vec_resize(vector_t *vector, const size_t new_capacity)
+static inline void vec_resize(vector_t *vector, const size_t new_capacity)
 {
     // WARNING: Does not do bound-checking, shrinking memory to 0
     // might result in undefined behavior.
@@ -252,7 +252,7 @@ inline void vec_resize(vector_t *vector, const size_t new_capacity)
  * @param vector Pointer to the vector_t structure.
  * @param n The number of additional elements to ensure capacity for.
  */
-inline void vec_ensure(vector_t *vector, const size_t n)
+static inline void vec_ensure(vector_t *vector, const size_t n)
 {
     // Ensure the vector has enough capacity for n elements
     if (vector->length + n > vector->capacity)
@@ -270,7 +270,7 @@ inline void vec_ensure(vector_t *vector, const size_t n)
  * @param vector Pointer to the vector_t structure.
  * @param value Pointer to the element to be added.
  */
-inline void vec_push(vector_t *vector, void *value)
+static inline void vec_push(vector_t *vector, void *value)
 {
     // Ensure we have enough capacity
     vec_ensure(vector, 1);
@@ -290,7 +290,7 @@ inline void vec_push(vector_t *vector, void *value)
  * @param index The index at which to set the value.
  * @param value Pointer to the new value to set.
  */
-inline void vec_set(const vector_t *vector, const size_t index, void *value)
+static inline void vec_set(const vector_t *vector, const size_t index, void *value)
 {
     // Make sure the index is valid
     if (index >= vector->length)
@@ -313,7 +313,7 @@ inline void vec_set(const vector_t *vector, const size_t index, void *value)
  * @param index The index from which to get the value.
  * @return Pointer to the value at the specified index.
  */
-inline void *vec_get(const vector_t *vector, const size_t index)
+static inline void *vec_get(const vector_t *vector, const size_t index)
 {
     // Make sure the index is valid
     if (index >= vector->length)
@@ -336,10 +336,10 @@ inline void *vec_get(const vector_t *vector, const size_t index)
  * @param callback Function pointer to call for each element. The function
  *        should accept a void pointer to the element and its index.
  */
-    inline void vec_for_each(
-        const vector_t *vector,
-        void (*callback)(const void *value, size_t index)
-    )
+static inline void vec_for_each(
+    const vector_t *vector,
+    void (*callback)(const void *value, size_t index)
+)
 {
     // Iterate over each element in the vector
     for (size_t i = 0; i < vector->length; i++)
@@ -358,7 +358,8 @@ inline void *vec_get(const vector_t *vector, const size_t index)
  *
  * @param vector Pointer to the vector_t structure to clear.
  */
-inline void vec_clear(vector_t *vector) {
+static inline void vec_clear(vector_t *vector)
+{
     vector->length = 0;
 }
 
@@ -372,7 +373,7 @@ inline void vec_clear(vector_t *vector) {
  * @param vector Pointer to the vector_t structure to destroy.
  * @param free_fn Optional function to free each element in the vector.
  */
-inline void vec_destroy(
+static inline void vec_destroy(
     vector_t *vector,
     void (*free_fn)(const void *, size_t)
 )
