@@ -11,85 +11,41 @@
 // ============= FLUENT LIB C =============
 // vector_t API
 // ----------------------------------------
-// A dynamic array implementation for C.
-// This library provides a simple and efficient
-// way to manage dynamic arrays without memory
-// leaks or manual memory management.
-// ----------------------------------------
-// While it is not the most efficient
-// implementation, it is simple and easy to
-// use.
+// A lightweight and type-safe dynamic array implementation for C.
+// This version uses macros to generate type-specific vectors, so
+// you get better type safety without losing simplicity.
 //
 // Features:
-// - vec_init:      Initialize a new vector.
-// - vec_capacity:  Get the current capacity of the vector.
-// - vec_len:       Get the current length of the vector.
-// - vec_resize:    Resize the vector to a new capacity.
-// - vec_ensure:    Ensure the vector has enough capacity for n elements.
-// - vec_push:      Append an element to the end of the vector.
-// - vec_set:       Set the value at a specific index.
-// - vec_get:       Get the value at a specific index.
-// - vec_for_each:  Iterate over each element in the vector.
-// - vec_clear:     Clear the vector without allocating new memory.
-// - vec_destroy:   Free all memory used by the vector.
-// Function Signatures:
+// - vec_<T>_init:      Initialize a new vector.
+// - vec_<T>_capacity:  Get current capacity.
+// - vec_<T>_len:       Get current number of elements.
+// - vec_<T>_resize:    Resize internal buffer.
+// - vec_<T>_ensure:    Ensure capacity for N extra items.
+// - vec_<T>_push:      Push a value to the end.
+// - vec_<T>_set:       Set value at index.
+// - vec_<T>_get:       Get value at index.
+// - vec_<T>_for_each:  Iterate with a callback.
+// - vec_<T>_clear:     Reset length to 0.
+// - vec_<T>_destroy:   Free memory (+ optional cleanup).
+//
+// Usage:
 // ----------------------------------------
-// void vec_init(vector_t *vector, const size_t initial_capacity, const size_t el_size);
-//     Example:
-//         vector_t v;
-//         vec_init(&v, 8, sizeof(int *));
+// DEFINE_VECTOR(int, int); // Defines `vector_int_t`
+// vector_int_t v;
+// vec_int_init(&v, 16, 2.0); // growth_factor = 2.0
+// vec_int_push(&v, 42);
+// int val = vec_int_get(&v, 0);
+// vec_int_destroy(&v, NULL);
 //
-// size_t vec_capacity(const vector_t *vector);
-//     Example:
-//         size_t cap = vec_capacity(&v);
+// Pro tip: Use `generic` for `void*` style:
+//     vec_generic_push(&v, ptr); // Works with malloc-ed ptrs
 //
-// size_t vec_len(const vector_t *vector);
-//     Example:
-//         size_t len = vec_len(&v);
-//
-// void vec_resize(vector_t *vector, const size_t new_capacity);
-//     Example:
-//         vec_resize(&v, 32);
-//
-// void vec_ensure(vector_t *vector, const size_t n);
-//     Example:
-//         vec_ensure(&v, 10);
-//
-// void vec_push(vector_t *vector, void *value);
-//     Example:
-//         int *x = malloc(sizeof(int));
-//         *x = 42;
-//         vec_push(&v, x);
-//
-// void vec_set(const vector_t *vector, const size_t index, void *value);
-//     Example:
-//         int *y = malloc(sizeof(int));
-//         *y = 99;
-//         vec_set(&v, 0, y);
-//
-// void *vec_get(const vector_t *vector, const size_t index);
-//     Example:
-//         int *z = (int *)vec_get(&v, 0);
-//
-// void vec_for_each(const vector_t *vector, void (*func)(void *));
-//     Example:
-//         void print_int(void *value)
-//         {
-//             printf("%d\n", *(int *)value);
-//         }
-//         vec_for_each(&v, print_int);
-//
-// void vec_clear(vector_t *vector);
-//     Example:
-//         vec_clear(&v);
-//
-// void vec_destroy(vector_t *vector);
-//     Example:
-//         vec_destroy(&v, NULL);
+// All vectors follow the same pattern, just swap `int`, `float`, etc.
 // ----------------------------------------
 // Initial revision: 2025-05-24
+// Last updated:     2025-06-05
 // ----------------------------------------
-// Depends on: stdlib.h
+// Depends on: stdlib.h, stdio.h
 // ----------------------------------------
 
 #ifndef FLUENT_LIBC_VECTOR_LIBRARY_H
