@@ -216,7 +216,7 @@ typedef unsigned long int size_t; // size_type
         vector->data = NULL;                               \
                                                            \
         vector->length = 0;                                \
-        vector->capacity = 0;                               \
+        vector->capacity = 0;                              \
     }
 
 #ifndef FLUENT_LIBC_VECTOR_GENERIC_DEFINED
