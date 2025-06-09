@@ -216,7 +216,21 @@ typedef unsigned long int size_t; // size_type
                                                            \
         vector->length = 0;                                \
         vector->capacity = 0;                              \
-    }
+    }                                                      \
+                                                           \
+    static inline V vec_##NAME##_pop(                      \
+        vector_##NAME##_t *vector                          \
+    )                                                      \
+    {                                                      \
+        if (vector->length == 0)                           \
+        {                                                  \
+            fprintf(stderr, "Error: Cannot pop from empty vector (fluent_libc: vector_t)\n"); \
+            exit(1);                                       \
+        }                                                  \
+                                                           \
+        vector->length--;                                  \
+        return vector->data[vector->length];               \
+    }                                                      \
 
 #ifndef FLUENT_LIBC_VECTOR_GENERIC_DEFINED
 #   define FLUENT_LIBC_VECTOR_GENERIC_DEFINED 1
