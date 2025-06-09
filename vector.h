@@ -213,7 +213,6 @@ typedef unsigned long int size_t; // size_type
                                                            \
         free(vector->data);                                \
         vector->data = NULL;                               \
-        vector->data = NULL;                               \
                                                            \
         vector->length = 0;                                \
         vector->capacity = 0;                              \
