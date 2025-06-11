@@ -127,6 +127,7 @@ typedef unsigned long int size_t; // size_type
         }                                                  \
                                                            \
         vector->data = new_data;                           \
+        vector->capacity = new_capacity;                   \
     }                                                      \
                                                            \
     static inline void vec_##NAME##_ensure(                \
