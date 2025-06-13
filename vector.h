@@ -59,11 +59,13 @@ extern "C" // C++ linkage
 
 #include <stdio.h>
 
-// == DEFINITIONS ==
-typedef unsigned long int size_t; // size_type
-
 // == IMPORTS ==
 #include <stdlib.h> // For malloc and free
+#ifndef FLUENT_LIBC_RELEASE
+#   include <types.h>
+#else
+#   include <fluent/types/types.h>
+#endif
 
 #define DEFINE_VECTOR(V, NAME)                             \
     typedef struct                                         \
