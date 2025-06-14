@@ -194,8 +194,7 @@ extern "C" // C++ linkage
     }                                                      \
                                                            \
     static inline void vec_##NAME##_clear(                 \
-        vector_##NAME##_t *vector,                         \
-        void (*callback)(const V value, size_t index)      \
+        vector_##NAME##_t *vector                          \
     )                                                      \
     {                                                      \
         vector->length = 0;                                \
