@@ -184,7 +184,7 @@ extern "C" // C++ linkage
                                                            \
     static inline void vec_##NAME##_for_each(              \
         vector_##NAME##_t *vector,                         \
-        void (*callback)(const V value, size_t index)      \
+        void (*callback)(V value, size_t index)            \
     )                                                      \
     {                                                      \
         for (size_t i = 0; i < vector->length; i++)        \
@@ -202,7 +202,7 @@ extern "C" // C++ linkage
                                                            \
     static inline void vec_##NAME##_destroy(               \
         vector_##NAME##_t *vector,                         \
-        void (*free_fn)(const V, size_t)                   \
+        void (*free_fn)(V, size_t)                         \
     )                                                      \
     {                                                      \
         if (free_fn != NULL)                               \
